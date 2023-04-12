@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  # before_action :authorize_request , only: [:login]
+  before_action :authorize_request , only: [:login]
 
   def authorize_request
     header = request.headers['Authorization']
