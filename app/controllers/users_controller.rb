@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
-      render json: { token: encode_token(user_id: user.id) }
+      render json: { message: 'User Created Successfuly' }, status: :ok
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -20,7 +20,11 @@ class UsersController < ApplicationController
   def login
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
-      render json: { token: encode_token(user_id: user.id) }
+      token = encode_token(user_id: user.id)
+      user.token = token
+      user.save
+      render json: { token: token }
+
     else
       render json: { error: 'Invalid email or password' }, status: :unauthorized
     end
