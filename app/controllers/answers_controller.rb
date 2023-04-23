@@ -1,41 +1,23 @@
 class AnswersController < ApplicationController
-  # def index
-  #   @answers = Answer.all
-  #   render json: @answers
-  # end
 
-  # def show
-  #   @answer = Answer.find(params[:id])
-  #   render json: @answer
-  # end
+  #before_action :authenticate_user!
 
-  # def create
-  #   @answer = Answer.new(answer_params)
-  #   if @answer.save
-  #     render json: @answer, status: :created
-  #   else
-  #     render json: @answer.errors, status: :unprocessable_entity
-  #   end
-  # end
+  def create
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.build(answer_params)
+    # @answer.user = current_user
+    if @answer.save
+      redirect_to @question
+    else
+      @answers = @question.answers.reload
+      render 'questions/show'
+    end
+  end
 
-  # def update
-  #   @answer = Answer.find(params[:id])
-  #   if @answer.update(answer_params)
-  #     render json: @answer
-  #   else
-  #     render json: @answer.errors, status: :unprocessable_entity
-  #   end
-  # end
+  private
 
-  # def destroy
-  #   @answer = Answer.find(params[:id])
-  #   @answer.destroy
-  #   head :no_content
-  # end
+  def answer_params
+    params.require(:answer).permit(:body)
+  end
 
-  # private
-
-  # def answer_params
-  #   params.require(:answer).permit(:body)
-  # end
 end

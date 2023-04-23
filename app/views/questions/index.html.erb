@@ -1,0 +1,21 @@
+<div class="questions-index">
+  <h1>All Questions</h1>
+
+  <% @questions.each do |question| %>
+    <div class="question">
+      <p><%= truncate(question.body, length: 100) %></p>
+
+      <% if question.answers.any? %>
+        <h3>Answers:</h3>
+        <% question.answers.each do |answer| %>
+          <div class="answer">
+            <p><%= answer.body %></p>
+            <p>By <%= "ChatGPT" %></p>
+          </div>
+        <% end %>
+      <% else %>
+        <p>No answers yet.</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

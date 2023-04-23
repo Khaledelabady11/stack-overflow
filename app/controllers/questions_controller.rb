@@ -8,10 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.find(params[:id])
-    render json: {
-      question: @question,
-      answers: @question.answers
-    }
+    @answer = @question.answers.create
   end
 
   def new
@@ -22,8 +19,8 @@ class QuestionsController < ApplicationController
     @question = Question.create(question_params)
     if @question.save!
 
-      @answer = ChatgptService.call(@question.body)
-      Answer.create(body: @answer,question_id: @question.id)
+      # @answer = ChatgptService.call(@question.body)
+      # Answer.create(body: @answer,question_id: @question.id)
       redirect_to question_path(@question)
     else
       render :new

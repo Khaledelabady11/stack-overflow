@@ -1,0 +1,28 @@
+<h1><%= @question.body %></h1>
+
+<div class="chat-box">
+  <% @question.answers.each do |answer| %>
+    <div class="message <%= "ChatGPT" == "ChatGPT" ? 'right' : 'left' %>">
+      <div class="message-body">
+        <%= answer.body %>
+      </div>
+      <div class="message-info">
+        <span class="message-sender"><%= "by ChatGPT" %></span>
+        <span class="message-timestamp"><%= answer.created_at %></span>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="ask-question-form">
+  <%= form_with(model: @question, url: questions_path) do |form| %>
+
+
+    <div class="form-group">
+      <%= form.label :body %>
+      <%= form.text_area :body, class: "form-control", placeholder: "Add more details here" %>
+    </div>
+
+    <%= form.submit "Ask", class: "btn btn-primary" %>
+  <% end %>
+</div>
